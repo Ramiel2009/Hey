@@ -5,6 +5,7 @@ import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,7 +19,7 @@ import android.widget.TextView;
 
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, History.OnFragmentInteractionListener,
+        implements NavigationView.OnNavigationItemSelectedListener, HistoryFragment.OnFragmentInteractionListener,
                     MyHeyFragment.OnFragmentInteractionListener{
 
     @Override
@@ -27,21 +28,18 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        TextView login = (TextView) findViewById(R.id.login_button);
-        login.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), LoginActivity.class);
-                startActivity(intent);
-            }
-        });
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(getBaseContext(), RestTest.class);
+                startActivity(intent);
+
             }
         });
+        Config.context = this;
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -51,7 +49,22 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        phone();
+
+        Contacts  c = new Contacts();
+        c.contacts();
     }
+
+    public void phone(){
+    // get phone number test
+    PhoneNumber pn = new PhoneNumber();
+        String userPhone = pn.getPhoneNumber(Config.context);
+    System.out.println("User's phone number: "+ userPhone);
+        TextView phoneView = (TextView)findViewById(R.id.userPhone);
+        phoneView.setText(userPhone);
+    }
+
+
 
     @Override
     public void onBackPressed() {
@@ -91,15 +104,26 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_messages) {
-            fragment = new History().newInstance("Item 1", "Item 2");
+            fragment = new HistoryFragment();
 
         } else if (id == R.id.nav_history) {
            fragment = new MyHeyFragment();
         } else if (id == R.id.nav_share) {
+            Snackbar.make(this.findViewById(R.id.toolbar), "SHARE IT!", Snackbar.LENGTH_LONG ).show();
         }
 
         if (fragment != null){
-            FragmentManager fragmentManager = getFragmentManager();
+            FragmentManager fragmentManager
+                    // synchronous call would be with execute, in this case you
+                    // would have to perform this outside the main thread
+                    // call.execute()
+
+                    // to cancel a running request
+                    // call.cancel();
+                    // calls can only be used once but you can easily clone them
+                    //Call<StackOverflowQuestions> c = call.clone();
+                    //c.enqueue(this);
+                    = getFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
         }
 

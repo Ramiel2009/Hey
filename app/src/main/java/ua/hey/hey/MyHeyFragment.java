@@ -25,7 +25,7 @@ public class MyHeyFragment extends ListFragment {
 
     // TODO: Rename and change types of parameters
     private String mParam1;
-    private String mParam2;
+    //private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
@@ -34,7 +34,7 @@ public class MyHeyFragment extends ListFragment {
         MyHeyFragment fragment = new MyHeyFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+       // args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -47,7 +47,7 @@ public class MyHeyFragment extends ListFragment {
 
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+           // mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
         // TODO: Change Adapter to display your content

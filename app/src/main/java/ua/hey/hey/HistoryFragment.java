@@ -12,6 +12,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
+import ua.hey.hey.dummy.dummy.Friends_placeholder;
+
 /**
  * A fragment representing a list of Items.
  * <p/>
@@ -21,7 +23,7 @@ import android.widget.TextView;
  * Activities containing this fragment MUST implement the {@link OnFragmentInteractionListener}
  * interface.
  */
-public class History extends Fragment implements AbsListView.OnItemClickListener {
+public class HistoryFragment extends Fragment implements AbsListView.OnItemClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -43,11 +45,13 @@ public class History extends Fragment implements AbsListView.OnItemClickListener
      * The Adapter which will be used to populate the ListView/GridView with
      * Views.
      */
-    private ListAdapter mAdapter;
+    private ArrayAdapter mAdapter;
+    private final String a[] = {"Item1", "Item2", "Item3", "Item4", "Item5", "Item6", "Item7"};
+
 
     // TODO: Rename and change types of parameters
-    public static History newInstance(String param1, String param2) {
-        History fragment = new History();
+    public static HistoryFragment newInstance(String param1, String param2) {
+        HistoryFragment fragment = new HistoryFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -59,7 +63,7 @@ public class History extends Fragment implements AbsListView.OnItemClickListener
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public History() {
+    public HistoryFragment() {
     }
 
     @Override
@@ -70,19 +74,29 @@ public class History extends Fragment implements AbsListView.OnItemClickListener
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        mAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, Friends_placeholder.getFriends());
 
-        // TODO: Change Adapter to display your content
- /*       mAdapter = new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS);*/
-        String a[] = {"Item1", "Item2", "Item3", "Item4", "Item5", "Item6", "Item7"};
-        mAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, a);
+        // this.setEmptyText("Empty :(");
     }
+        /*{
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent){
+                View view = super.getView(position, convertView, parent);
+                TextView text1 = (TextView)view.findViewById(android.R.id.text1);
+                TextView text2 = (TextView)view.findViewById(android.R.id.text2);
+                text1.setText(a[position]);
+                text2.setText(a[position]);
+                return view;
+            }
+        };*/
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_contacts, container, false);
         // Set the adapter
+
         mListView = (AbsListView) view.findViewById(android.R.id.list);
         ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
 
@@ -111,18 +125,17 @@ public class History extends Fragment implements AbsListView.OnItemClickListener
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        String i = mListView.getAdapter().getItem(position).toString();
+        System.out.println(i);
         if (null != mListener) {
-            // Notify the active callbacks interface (the activity, if the
-            // fragment is attached to one) that an item has been selected.
-            //mListener.onFragmentInteraction(DummyContent.ITEMS.get(position).id);
+            if (position == 1){
+
+                View v = getActivity().findViewById(android.R.id.content).getRootView();
+            }
         }
     }
 
-    /**
-     * The default content for this Fragment has a TextView that is shown when
-     * the list is empty. If you would like to change the text, call this method
-     * to supply the text it should use.
-     */
+
     public void setEmptyText(CharSequence emptyText) {
         View emptyView = mListView.getEmptyView();
 
@@ -130,20 +143,11 @@ public class History extends Fragment implements AbsListView.OnItemClickListener
             ((TextView) emptyView).setText(emptyText);
         }
     }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(String id);
     }
+
+    
 
 }
