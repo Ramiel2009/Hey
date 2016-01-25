@@ -12,7 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
-import ua.hey.hey.dummy.dummy.Friends_placeholder;
+import ua.hey.hey.dummy.dummy.Friends;
 
 /**
  * A fragment representing a list of Items.
@@ -74,7 +74,7 @@ public class HistoryFragment extends Fragment implements AbsListView.OnItemClick
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        mAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, Friends_placeholder.getFriends());
+        mAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, Friends.getFriends());
 
         // this.setEmptyText("Empty :(");
     }
