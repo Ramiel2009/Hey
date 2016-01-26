@@ -1,8 +1,9 @@
 package ua.hey.hey;
 
 import android.app.Activity;
-import android.os.Bundle;
 import android.app.Fragment;
+import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,16 +13,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
-/**
- * A fragment representing a list of Items.
- * <p/>
- * Large screen devices (such as tablets) are supported by replacing the ListView
- * with a GridView.
- * <p/>
- * Activities containing this fragment MUST implement the {@link OnFragmentInteractionListener}
- * interface.
- */
-public class HistoryFragment extends Fragment implements AbsListView.OnItemClickListener {
+import java.util.List;
+
+public class ContactsList extends Fragment implements AbsListView.OnItemClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -31,6 +25,26 @@ public class HistoryFragment extends Fragment implements AbsListView.OnItemClick
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private String recipientName;
+
+    public String getRecipientPhone() {
+        return recipientPhone;
+    }
+
+    public void setRecipientPhone(String recipientPhone) {
+        this.recipientPhone = recipientPhone;
+    }
+
+    private String recipientPhone;
+
+    public String getRecipient() {
+        return recipientName;
+    }
+
+    public void setRecipient(String recipient) {
+        this.recipientName = recipient;
+    }
 
     private OnFragmentInteractionListener mListener;
 
@@ -44,12 +58,10 @@ public class HistoryFragment extends Fragment implements AbsListView.OnItemClick
      * Views.
      */
     private ArrayAdapter mAdapter;
-    private final String a[] = {"Item1", "Item2", "Item3", "Item4", "Item5", "Item6", "Item7"};
-
 
     // TODO: Rename and change types of parameters
-    public static HistoryFragment newInstance(String param1, String param2) {
-        HistoryFragment fragment = new HistoryFragment();
+    public static ContactsList newInstance(String param1, String param2) {
+        ContactsList fragment = new ContactsList();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -61,7 +73,7 @@ public class HistoryFragment extends Fragment implements AbsListView.OnItemClick
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public HistoryFragment() {
+    public ContactsList() {
     }
 
     @Override
@@ -126,13 +138,12 @@ public class HistoryFragment extends Fragment implements AbsListView.OnItemClick
         String i = mListView.getAdapter().getItem(position).toString();
         System.out.println(i);
         if (null != mListener) {
-            if (position == 1){
-
-                View v = getActivity().findViewById(android.R.id.content).getRootView();
-            }
+            this.recipientName = i;
+            List recipientPhone = Contacts.phonesArray;
+            View v = getActivity().findViewById(android.R.id.content).getRootView();
+            Snackbar.make(v, i + " " + recipientPhone.get(position), Snackbar.LENGTH_LONG).show();
         }
     }
-
 
     public void setEmptyText(CharSequence emptyText) {
         View emptyView = mListView.getEmptyView();
@@ -145,7 +156,4 @@ public class HistoryFragment extends Fragment implements AbsListView.OnItemClick
         // TODO: Update argument type and name
         public void onFragmentInteraction(String id);
     }
-
-    
-
 }

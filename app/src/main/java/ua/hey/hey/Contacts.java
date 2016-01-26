@@ -11,6 +11,7 @@ import java.util.List;
  */
 public class Contacts {
     public static List <String>  s = new ArrayList<>();
+    public static List <String>  phonesArray = new ArrayList<>();
     public static int b=0;
     public void contacts(){
 
@@ -33,6 +34,7 @@ public class Contacts {
                     System.out.println("Name: " + name + ", Phone No: " + phoneNo + "\n");
                     System.out.println(b);
                     s.add(b, name);
+                    phonesArray.add(b, phoneNo);
                     b++;
 
                 }
