@@ -1,4 +1,4 @@
-package ua.hey.hey.dummy.dummy;
+package ua.hey.hey;
 
 import ua.hey.hey.Contacts;
 

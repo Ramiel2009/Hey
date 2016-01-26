@@ -12,8 +12,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
-import ua.hey.hey.dummy.dummy.Friends;
-
 /**
  * A fragment representing a list of Items.
  * <p/>
