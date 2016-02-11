@@ -28,15 +28,14 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SocketConnection sc = new SocketConnection();
-                sc.setContext(getBaseContext());
-                sc.execute();
-                //Intent intent = new Intent(getBaseContext(), RestTest.class);
-                //startActivity(intent);
+                //test notification
+                Notifications not = new Notifications();
+                synchronized (not){
+                    not.notification(getBaseContext());}
+
             }
         });
         Config.context = this;
@@ -51,8 +50,17 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         phone();
 
+
         Contacts  c = new Contacts();
         c.contacts();
+
+        SocketConnection sc = new SocketConnection();
+        sc.setAction("get_messages");
+        sc.execute();
+        SocketConnection sc2 = new SocketConnection();
+        sc2.setAction("get_new_messages");
+        sc2.execute();
+
     }
 
     public void phone(){

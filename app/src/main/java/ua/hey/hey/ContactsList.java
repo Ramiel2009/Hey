@@ -2,6 +2,7 @@ package ua.hey.hey;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
@@ -23,28 +24,9 @@ public class ContactsList extends Fragment implements AbsListView.OnItemClickLis
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     private String recipientName;
 
-    public String getRecipientPhone() {
-        return recipientPhone;
-    }
-
-    public void setRecipientPhone(String recipientPhone) {
-        this.recipientPhone = recipientPhone;
-    }
-
-    private String recipientPhone;
-
-    public String getRecipient() {
-        return recipientName;
-    }
-
-    public void setRecipient(String recipient) {
-        this.recipientName = recipient;
-    }
 
     private OnFragmentInteractionListener mListener;
 
@@ -68,6 +50,11 @@ public class ContactsList extends Fragment implements AbsListView.OnItemClickLis
         fragment.setArguments(args);
         return fragment;
     }
+   /* public void setContext(Context context) {
+        this.context = context;
+    }
+
+    private Context context;*/
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -80,26 +67,11 @@ public class ContactsList extends Fragment implements AbsListView.OnItemClickLis
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
         mAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, Friends.getFriends());
 
         // this.setEmptyText("Empty :(");
     }
-        /*{
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent){
-                View view = super.getView(position, convertView, parent);
-                TextView text1 = (TextView)view.findViewById(android.R.id.text1);
-                TextView text2 = (TextView)view.findViewById(android.R.id.text2);
-                text1.setText(a[position]);
-                text2.setText(a[position]);
-                return view;
-            }
-        };*/
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -112,6 +84,9 @@ public class ContactsList extends Fragment implements AbsListView.OnItemClickLis
 
         // Set OnItemClickListener so we can be notified on item clicks
         mListView.setOnItemClickListener(this);
+        PhoneNumber phoneNumber = new PhoneNumber();
+        phoneNumber.getPhoneNumber(this.getActivity().getBaseContext());
+
 
         return view;
     }
@@ -142,6 +117,11 @@ public class ContactsList extends Fragment implements AbsListView.OnItemClickLis
             List recipientPhone = Contacts.phonesArray;
             View v = getActivity().findViewById(android.R.id.content).getRootView();
             Snackbar.make(v, i + " " + recipientPhone.get(position), Snackbar.LENGTH_LONG).show();
+            SocketConnection sc = new SocketConnection();
+            sc.setAction("send_message");
+            sc.setRecPhone(recipientPhone.get(position).toString());
+            sc.setContext(this.getActivity().getBaseContext());
+            sc.execute();
         }
     }
 
